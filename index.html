@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>سديم الخير للخرسانة الجاهزة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #1C3D9B;
+      --blue-dark: #122880;
+      --blue-light: #2550c4;
+      --green: #4AB545;
+      --green-dark: #389934;
+      --white: #FFFFFF;
+      --off-white: #F4F6FA;
+      --gray: #8a9ab5;
+      --dark: #0B1B45;
+      --text: #1a2a4a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Almarai', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      background: rgba(11, 27, 69, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(74, 181, 69, 0.18);
+      transition: background .3s;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo svg { width: 38px; height: 40px; }
+
+    .nav-brand {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .nav-brand-main {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.2px;
+    }
+
+    .nav-brand-sub {
+      font-size: 10px;
+      font-weight: 300;
+      color: var(--green);
+      letter-spacing: .5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,.75);
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 400;
+      transition: color .2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; right: 0;
+      width: 0; height: 2px;
+      background: var(--green);
+      transition: width .3s;
+    }
+
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; left: 0; right: auto; }
+
+    .nav-cta {
+      background: var(--green);
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 700 !important;
+      font-size: 13px !important;
+      transition: background .2s, transform .15s !important;
+    }
+
+    .nav-cta:hover { background: var(--green-dark) !important; transform: translateY(-1px); }
+    .nav-cta::after { display: none !important; }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      background: var(--dark);
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-geo {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    /* Animated geometric lines */
+    .hero-geo::before {
+      content: '';
+      position: absolute;
+      top: -20%; right: -10%;
+      width: 70vw; height: 70vw;
+      background: conic-gradient(from 0deg, transparent 0deg, rgba(28, 61, 155, .35) 60deg, transparent 60deg, transparent 120deg, rgba(74, 181, 69, .15) 180deg, transparent 180deg);
+      border-radius: 50%;
+      animation: rotateSlow 30s linear infinite;
+    }
+
+    .hero-geo::after {
+      content: '';
+      position: absolute;
+      bottom: -20%; left: -10%;
+      width: 55vw; height: 55vw;
+      background: radial-gradient(circle, rgba(28,61,155,.5) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: pulsate 8s ease-in-out infinite;
+    }
+
+    @keyframes rotateSlow { to { transform: rotate(360deg); } }
+    @keyframes pulsate {
+      0%, 100% { transform: scale(1); opacity: .5; }
+      50% { transform: scale(1.1); opacity: .8; }
+    }
+
+    /* Grid overlay */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Diagonal accent bar */
+    .hero-accent {
+      position: absolute;
+      top: 0; right: 0;
+      width: 45%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(28,61,155,.25) 0%, rgba(74,181,69,.1) 100%);
+      clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 8%;
+      max-width: 700px;
+      animation: heroIn .9s cubic-bezier(.22,.8,.38,1) both;
+    }
+
+    @keyframes heroIn {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(74,181,69,.15);
+      border: 1px solid rgba(74,181,69,.4);
+      border-radius: 100px;
+      padding: 6px 16px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      margin-bottom: 28px;
+    }
+
+    .hero-badge-dot {
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .3; }
+    }
+
+    .hero-title {
+      font-family: 'Tajawal', sans-serif;
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .hero-title span {
+      color: var(--green);
+      position: relative;
+    }
+
+    .hero-title span::after {
+      content: '';
+      position: absolute;
+      bottom: 4px; right: 0; left: 0;
+      height: 3px;
+      background: var(--green);
+      opacity: .4;
+      border-radius: 2px;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(255,255,255,.65);
+      line-height: 1.8;
+      margin-bottom: 40px;
+      max-width: 560px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #fff;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all .25s;
+      box-shadow: 0 6px 24px rgba(74,181,69,.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--green-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(74,181,69,.45);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1.5px solid rgba(255,255,255,.3);
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all .25s;
+    }
+
+    .btn-outline:hover {
+      border-color: rgba(255,255,255,.7);
+      background: rgba(255,255,255,.07);
+      transform: translateY(-2px);
+    }
+
+    /* Stats strip */
+    .hero-stats {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 2;
+      background: rgba(255,255,255,.05);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255,255,255,.08);
+      display: flex;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .stat-item {
+      flex: 1;
+      max-width: 220px;
+      padding: 22px 20px;
+      text-align: center;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    .stat-item:first-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--green);
+      display: block;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: rgba(255,255,255,.5);
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* Hero visual right side */
+    .hero-visual {
+      position: absolute;
+      left: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      opacity: .12;
+      animation: heroIn 1.2s .3s cubic-bezier(.22,.8,.38,1) both;
+    }
+
+    .hero-visual svg {
+      width: clamp(200px, 28vw, 380px);
+      height: auto;
+    }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 90px 8%; }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--green);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 28px; height: 2px;
+      background: var(--green);
+      border-radius: 2px;
+    }
+
+    .section-title {
+      font-family: 'Tajawal', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 900;
+      color: var(--dark);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .section-title span { color: var(--blue); }
+
+    .section-desc {
+      font-size: 15.5px;
+      color: #5a6f8a;
+      line-height: 1.85;
+      max-width: 560px;
+    }
+
+    /* ─── SERVICES ─── */
+    #services { background: var(--off-white); }
+
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 30px;
+      margin-bottom: 56px;
+      flex-wrap: wrap;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 36px 30px;
+      border: 1px solid rgba(28,61,155,.08);
+      position: relative;
+      overflow: hidden;
+      transition: all .3s cubic-bezier(.22,.8,.38,1);
+      cursor: default;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 0; height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--green));
+      transition: width .4s ease;
+      border-radius: 0 0 16px 0;
+    }
+
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(28,61,155,.12);
+      border-color: transparent;
+    }
+
+    .service-card:hover::before { width: 100%; }
+
+    .service-icon {
+      width: 56px; height: 56px;
+      background: linear-gradient(135deg, rgba(28,61,155,.1), rgba(74,181,69,.1));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+      font-size: 26px;
+      transition: transform .3s;
+    }
+
+    .service-card:hover .service-icon { transform: scale(1.1) rotate(-5deg); }
+
+    .service-name {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .service-desc {
+      font-size: 14px;
+      color: #6b7f9a;
+      line-height: 1.75;
+    }
+
+    .service-tag {
+      display: inline-block;
+      margin-top: 18px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue);
+      background: rgba(28,61,155,.07);
+      padding: 4px 12px;
+      border-radius: 100px;
+    }
+
+    /* ─── ABOUT ─── */
+    #about {
+      background: var(--white);
+      display: flex;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-visual {
+      flex: 0 0 42%;
+      position: relative;
+    }
+
+    .about-img-wrap {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--dark) 100%);
+    }
+
+    .about-pattern {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg, rgba(255,255,255,.04) 0px, rgba(255,255,255,.04) 1px, transparent 1px, transparent 20px),
+        repeating-linear-gradient(-45deg, rgba(74,181,69,.05) 0px, rgba(74,181,69,.05) 1px, transparent 1px, transparent 20px);
+    }
+
+    .about-logo-big {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: .6;
+    }
+
+    .about-logo-big svg { width: 160px; height: auto; }
+
+    .about-badge-float {
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      background: var(--green);
+      border-radius: 14px;
+      padding: 18px 22px;
+      color: #fff;
+      font-family: 'Tajawal', sans-serif;
+      box-shadow: 0 12px 40px rgba(74,181,69,.4);
+    }
+
+    .about-badge-float strong {
+      display: block;
+      font-size: 26px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .about-badge-float span {
+      font-size: 12px;
+      font-weight: 400;
+      opacity: .85;
+    }
+
+    .about-content { flex: 1; }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .value-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .value-dot {
+      width: 10px; height: 10px;
+      min-width: 10px;
+      background: var(--green);
+      border-radius: 50%;
+      margin-top: 6px;
+    }
+
+    .value-text {
+      font-size: 14px;
+      color: #4a5e78;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .value-text strong {
+      display: block;
+      color: var(--dark);
+      font-size: 14.5px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    /* ─── CLIENTS ─── */
+    #clients {
+      background: var(--dark);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    #clients .section-title { color: #fff; }
+    #clients .section-label { justify-content: center; }
+    #clients .section-label::before { display: none; }
+    #clients .section-label::after {
+      content: '';
+      display: block;
+      width: 28px; height: 2px;
+      background: var(--green);
+      border-radius: 2px;
+    }
+
+    .clients-intro {
+      color: rgba(255,255,255,.55);
+      font-size: 15px;
+      max-width: 500px;
+      margin: 0 auto 56px;
+      line-height: 1.8;
+    }
+
+    .clients-track-wrap {
+      position: relative;
+      overflow: hidden;
+      margin: 0 -8%;
+      padding: 10px 0;
+    }
+
+    .clients-track-wrap::before,
+    .clients-track-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 120px;
+      z-index: 2;
+    }
+
+    .clients-track-wrap::before {
+      right: 0;
+      background: linear-gradient(to right, transparent, var(--dark));
+    }
+
+    .clients-track-wrap::after {
+      left: 0;
+      background: linear-gradient(to left, transparent, var(--dark));
+    }
+
+    .clients-track {
+      display: flex;
+      gap: 20px;
+      animation: scrollTrack 22s linear infinite;
+      width: max-content;
+    }
+
+    @keyframes scrollTrack {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .client-pill {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 100px;
+      padding: 12px 28px;
+      color: rgba(255,255,255,.7);
+      font-size: 13.5px;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: all .3s;
+    }
+
+    .client-pill:hover {
+      background: rgba(74,181,69,.15);
+      border-color: rgba(74,181,69,.4);
+      color: #fff;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      background: var(--off-white);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+      margin-top: 50px;
+    }
+
+    .contact-info { }
+
+    .contact-info-title {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 28px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .contact-icon {
+      width: 46px; height: 46px;
+      min-width: 46px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-light));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(28,61,155,.25);
+    }
+
+    .contact-item-body {}
+
+    .contact-item-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--gray);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .contact-item-val {
+      font-size: 14.5px;
+      color: var(--text);
+      font-weight: 500;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .contact-item-val a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .contact-item-val a:hover { text-decoration: underline; }
+
+    /* Form */
+    .contact-form {
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px;
+      border: 1px solid rgba(28,61,155,.08);
+      box-shadow: 0 12px 48px rgba(28,61,155,.07);
+    }
+
+    .form-title {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 24px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #4a5e78;
+      margin-bottom: 7px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid rgba(28,61,155,.12);
+      border-radius: 10px;
+      font-family: 'Almarai', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--off-white);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      direction: rtl;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(28,61,155,.1);
+      background: #fff;
+    }
+
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--blue), var(--blue-light));
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 10px;
+      font-family: 'Tajawal', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: all .25s;
+      box-shadow: 0 6px 24px rgba(28,61,155,.3);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(28,61,155,.4);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark);
+      padding: 48px 8% 28px;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand { max-width: 300px; }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .footer-logo svg { width: 36px; height: 38px; }
+
+    .footer-brand-name {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .footer-tagline {
+      font-size: 13px;
+      color: rgba(255,255,255,.4);
+      line-height: 1.7;
+    }
+
+    .footer-links h4 {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 16px;
+      letter-spacing: .5px;
+    }
+
+    .footer-links ul { list-style: none; }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,.5);
+      text-decoration: none;
+      font-size: 13.5px;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover { color: #fff; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.07);
+      padding-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-copy {
+      font-size: 12.5px;
+      color: rgba(255,255,255,.3);
+    }
+
+    .footer-copy span { color: var(--green); }
+
+    /* ─── WHATSAPP FLOAT ─── */
+    .wa-float {
+      position: fixed;
+      bottom: 28px;
+      left: 28px;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .wa-btn {
+      width: 58px; height: 58px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 28px rgba(37,211,102,.45);
+      transition: all .3s;
+      animation: waPop .8s 1.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @keyframes waPop {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .wa-btn:hover {
+      transform: scale(1.08) translateY(-3px);
+      box-shadow: 0 14px 40px rgba(37,211,102,.55);
+    }
+
+    .wa-btn svg { width: 30px; height: 30px; }
+
+    .wa-label {
+      background: #fff;
+      color: var(--dark);
+      font-family: 'Tajawal', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 100px;
+      box-shadow: 0 6px 20px rgba(0,0,0,.12);
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: all .3s;
+      pointer-events: none;
+    }
+
+    .wa-float:hover .wa-label {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      #about { flex-direction: column; gap: 50px; }
+      .about-visual { flex: none; width: 100%; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 5%; }
+      .nav-links { display: none; }
+      section { padding: 64px 5%; }
+      .hero-content { padding: 0 5%; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-top { flex-direction: column; }
+      .hero-stats { flex-wrap: wrap; }
+      .stat-item { min-width: 45%; }
+      .clients-track { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283 295" fill="none">
+        <path d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z" fill="#1C3D9B"/>
+        <path d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z" fill="#4AB545"/>
+        <path d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z" fill="#1C3D9B"/>
+        <path d="M145 153H187V160H151V169H181H187V192.5L145.5 192V185.5H181V176H145V160V153Z" fill="#4AB545"/>
+        <path d="M194 153H200V175.5H229V164.5V159.5H200V153H210H220H229H235V175.5V182V193H229V182H200V193H194V153Z" fill="#4AB545"/>
+        <path d="M241 153H283V160H247V185.221H277V175H263V169H283V185.221V192.5H241V178V160V153Z" fill="#4AB545"/>
+      </svg>
+      <div class="nav-brand">
+        <span class="nav-brand-main">سديم الخير</span>
+        <span class="nav-brand-sub">للخرسانة الجاهزة</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">خدماتنا</a></li>
+      <li><a href="#about">عن الشركة</a></li>
+      <li><a href="#clients">عملاؤنا</a></li>
+      <li><a href="#contact" class="nav-cta">تواصل معنا</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-geo"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-accent"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        مصنع الخرسانة الجاهزة — جدة، المملكة العربية السعودية
+      </div>
+      <h1 class="hero-title">
+        نبني <span>المستقبل</span><br />
+        بجودة لا تُضاهى
+      </h1>
+      <p class="hero-sub">
+        مصنع سديم الخير للخرسانة الجاهزة — شريككم الموثوق في مشاريع البناء والإنشاء بمنطقة جدة. نقدم خرسانة جاهزة بأحدث المواصفات التقنية لضمان متانة وجودة استثنائية.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">
+          ابدأ مشروعك الآن
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#services" class="btn-outline">
+          استكشف خدماتنا
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283 295" fill="none">
+        <path d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z" fill="white"/>
+        <path d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z" fill="white"/>
+        <path d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z" fill="white"/>
+        <path d="M145 153H187V160H151V169H181H187V192.5L145.5 192V185.5H181V176H145V160V153Z" fill="white"/>
+        <path d="M194 153H200V175.5H229V164.5V159.5H200V153H210H220H229H235V175.5V182V193H229V182H200V193H194V153Z" fill="white"/>
+        <path d="M241 153H283V160H247V185.221H277V175H263V169H283V185.221V192.5H241V178V160V153Z" fill="white"/>
+      </svg>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">+15</span>
+        <span class="stat-label">سنة خبرة</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">+200</span>
+        <span class="stat-label">مشروع منجز</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">+50</span>
+        <span class="stat-label">عميل موثوق</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">24/7</span>
+        <span class="stat-label">دعم مستمر</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="services-header">
+      <div>
+        <p class="section-label">ما نقدمه</p>
+        <h2 class="section-title">خدماتنا <span>المتكاملة</span></h2>
+      </div>
+      <p class="section-desc">
+        نوفر منظومة متكاملة من خدمات البناء والإنشاء بمعايير عالمية وكوادر هندسية متخصصة.
+      </p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon">🏗️</div>
+        <div class="service-name">الخرسانة الجاهزة</div>
+        <p class="service-desc">تصنيع وتوريد الخرسانة الجاهزة بأحدث المواصفات التقنية والمعايير الهندسية المعتمدة، مع ضمان الجودة في كل دفعة.</p>
+        <span class="service-tag">الخدمة الرئيسية</span>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon">🏢</div>
+        <div class="service-name">المقاولات العامة</div>
+        <p class="service-desc">خدمات مقاولات شاملة مع فريق من المهندسين والفنيين المؤهلين لتنفيذ المشاريع الإنشائية بكفاءة عالية.</p>
+        <span class="service-tag">مقاولات</span>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">🔧</div>
+        <div class="service-name">صيانة المباني</div>
+        <p class="service-desc">خدمات صيانة متكاملة للمباني السكنية والتجارية والحكومية، تشمل الصيانة الوقائية والتصحيحية.</p>
+        <span class="service-tag">صيانة</span>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon">✨</div>
+        <div class="service-name">تنظيف المباني</div>
+        <p class="service-desc">خدمات تنظيف احترافية باستخدام أحدث المعدات والتقنيات لضمان نتائج مثالية وبيئة نظيفة وصحية.</p>
+        <span class="service-tag">تنظيف</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-visual reveal">
+      <div class="about-img-wrap">
+        <div class="about-pattern"></div>
+        <div class="about-logo-big">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283 295" fill="none">
+            <path d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z" fill="white"/>
+            <path d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z" fill="#4AB545"/>
+            <path d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z" fill="white"/>
+            <path d="M145 153H187V160H151V169H181H187V192.5L145.5 192V185.5H181V176H145V160V153Z" fill="#4AB545"/>
+            <path d="M194 153H200V175.5H229V164.5V159.5H200V153H210H220H229H235V175.5V182V193H229V182H200V193H194V153Z" fill="#4AB545"/>
+            <path d="M241 153H283V160H247V185.221H277V175H263V169H283V185.221V192.5H241V178V160V153Z" fill="#4AB545"/>
+          </svg>
+        </div>
+      </div>
+      <div class="about-badge-float">
+        <strong>نجاح</strong>
+        <span>للجميع</span>
+      </div>
+    </div>
+
+    <div class="about-content reveal reveal-delay-1">
+      <p class="section-label">من نحن</p>
+      <h2 class="section-title">رؤية فاعلة في <span>عالم البناء</span></h2>
+      <p class="section-desc">
+        مجموعة سديم الخير شركة رائدة في قطاع البناء والإنشاء بالمملكة العربية السعودية. نجمع بين احتياجات العملاء وجودة المنتج مع الحفاظ على الكفاءة في التكلفة لتحقيق أفضل النتائج.
+      </p>
+
+      <div class="values-grid">
+        <div class="value-item">
+          <div class="value-dot"></div>
+          <div class="value-text">
+            <strong>ضمان الجودة</strong>
+            التميز في الأداء واعتماد أعلى معايير الجودة العالمية
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-dot"></div>
+          <div class="value-text">
+            <strong>رضا العملاء</strong>
+            متابعة مستمرة لتحقيق توقعات وأهداف عملائنا
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-dot"></div>
+          <div class="value-text">
+            <strong>الابتكار التقني</strong>
+            تبني أحدث التقنيات والحلول الهندسية المتطورة
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-dot"></div>
+          <div class="value-text">
+            <strong>الشراكة الاستراتيجية</strong>
+            تعاون وثيق مع شركاء محليين ودوليين متميزين
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENTS -->
+  <section id="clients">
+    <p class="section-label">ثقة تمتد لعقود</p>
+    <h2 class="section-title">عملاؤنا <span style="color:var(--green)">الكرام</span></h2>
+    <p class="clients-intro">
+      شرف العمل مع كبرى المؤسسات والجهات الحكومية والخاصة في المملكة العربية السعودية
+    </p>
+
+    <div class="clients-track-wrap">
+      <div class="clients-track">
+        <!-- duplicated for seamless loop -->
+        <div class="client-pill">مطار الملك عبدالعزيز الدولي</div>
+        <div class="client-pill">جامعة الملك عبدالعزيز</div>
+        <div class="client-pill">وزارة التعليم</div>
+        <div class="client-pill">مجموعة الراجحي السعودية</div>
+        <div class="client-pill">Saudi Oger Ltd</div>
+        <div class="client-pill">المشاريع الحكومية</div>
+        <div class="client-pill">المباني التجارية</div>
+        <div class="client-pill">المجمعات السكنية</div>
+        <div class="client-pill">مطار الملك عبدالعزيز الدولي</div>
+        <div class="client-pill">جامعة الملك عبدالعزيز</div>
+        <div class="client-pill">وزارة التعليم</div>
+        <div class="client-pill">مجموعة الراجحي السعودية</div>
+        <div class="client-pill">Saudi Oger Ltd</div>
+        <div class="client-pill">المشاريع الحكومية</div>
+        <div class="client-pill">المباني التجارية</div>
+        <div class="client-pill">المجمعات السكنية</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label">تواصل معنا</p>
+    <h2 class="section-title">نحن هنا <span>لخدمتكم</span></h2>
+
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <h3 class="contact-info-title">معلومات التواصل</h3>
+
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-item-body">
+            <div class="contact-item-label">العنوان</div>
+            <div class="contact-item-val">جدة، المملكة العربية السعودية<br/>حي الخالدية، شارع البلدية</div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div class="contact-item-body">
+            <div class="contact-item-label">الهاتف</div>
+            <div class="contact-item-val">
+              <a href="tel:+966126659777">+966 12 665 9777</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">💬</div>
+          <div class="contact-item-body">
+            <div class="contact-item-label">واتساب</div>
+            <div class="contact-item-val">
+              <a href="https://wa.me/966593613777" target="_blank">+966 59 361 3777</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-item-body">
+            <div class="contact-item-label">البريد الإلكتروني</div>
+            <div class="contact-item-val">
+              <a href="mailto:info@salkhair.sa">info@salkhair.sa</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">🌐</div>
+          <div class="contact-item-body">
+            <div class="contact-item-label">الموقع الإلكتروني</div>
+            <div class="contact-item-val">
+              <a href="https://www.salkhair.sa" target="_blank">www.salkhair.sa</a>
+            </div>
+          </div>
+        </div>
+
+        <a href="https://wa.me/966593613777" target="_blank" class="btn-primary" style="margin-top:10px; width:fit-content;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          راسلنا على واتساب
+        </a>
+      </div>
+
+      <div class="contact-form reveal reveal-delay-2">
+        <h3 class="form-title">أرسل رسالتك</h3>
+        <form onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>الاسم الكامل</label>
+              <input type="text" placeholder="محمد العمري" required />
+            </div>
+            <div class="form-group">
+              <label>رقم الجوال</label>
+              <input type="tel" placeholder="+966 5X XXX XXXX" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>البريد الإلكتروني</label>
+            <input type="email" placeholder="example@email.com" />
+          </div>
+          <div class="form-group">
+            <label>نوع الخدمة</label>
+            <select>
+              <option value="">اختر الخدمة المطلوبة</option>
+              <option>الخرسانة الجاهزة</option>
+              <option>المقاولات العامة</option>
+              <option>صيانة المباني</option>
+              <option>تنظيف المباني</option>
+              <option>أخرى</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>تفاصيل المشروع</label>
+            <textarea placeholder="أخبرنا عن مشروعك ومتطلباتك..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit">إرسال الرسالة ←</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283 295" fill="none">
+            <path d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z" fill="#1C3D9B"/>
+            <path d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z" fill="#4AB545"/>
+            <path d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z" fill="#1C3D9B"/>
+            <path d="M145 153H187V160H151V169H181H187V192.5L145.5 192V185.5H181V176H145V160V153Z" fill="#4AB545"/>
+            <path d="M194 153H200V175.5H229V164.5V159.5H200V153H210H220H229H235V175.5V182V193H229V182H200V193H194V153Z" fill="#4AB545"/>
+            <path d="M241 153H283V160H247V185.221H277V175H263V169H283V185.221V192.5H241V178V160V153Z" fill="#4AB545"/>
+          </svg>
+          <span class="footer-brand-name">سديم الخير للخرسانة الجاهزة</span>
+        </div>
+        <p class="footer-tagline">نجاح للجميع — شريككم الموثوق في كل مشاريع البناء والإنشاء منذ أكثر من خمسة عشر عاماً.</p>
+      </div>
+
+      <div class="footer-links">
+        <h4>روابط سريعة</h4>
+        <ul>
+          <li><a href="#services">خدماتنا</a></li>
+          <li><a href="#about">عن الشركة</a></li>
+          <li><a href="#clients">عملاؤنا</a></li>
+          <li><a href="#contact">تواصل معنا</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>خدماتنا</h4>
+        <ul>
+          <li><a href="#services">الخرسانة الجاهزة</a></li>
+          <li><a href="#services">المقاولات العامة</a></li>
+          <li><a href="#services">صيانة المباني</a></li>
+          <li><a href="#services">تنظيف المباني</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>تواصل معنا</h4>
+        <ul>
+          <li><a href="tel:+966126659777">+966 12 665 9777</a></li>
+          <li><a href="https://wa.me/966579589993">+966 57 958 9993</a></li>
+          <li><a href="mailto:info@salkhair.sa">info@salkhair.sa</a></li>
+          <li><a href="#">جدة، بريمان شرق الخط السريع</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 <span>سديم الخير للخرسانة الجاهزة</span>. جميع الحقوق محفوظة.</p>
+      <p class="footer-copy"><a href="https://www.salkhair.sa" style="color:rgba(255,255,255,.3); text-decoration:none;">www.salkhair.sa</a></p>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOATING BUTTON -->
+  <a href="https://wa.me/966579589993" target="_blank" class="wa-float" aria-label="تواصل عبر واتساب">
+    <span class="wa-label">تواصل عبر واتساب</span>
+    <div class="wa-btn">
+      <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+    </div>
+  </a>
+
+  <script>
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // Nav scroll effect
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.style.background = window.scrollY > 60
+        ? 'rgba(11, 27, 69, 0.98)'
+        : 'rgba(11, 27, 69, 0.92)';
+    });
+
+    // Form submit
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.btn-submit');
+      btn.textContent = '✓ تم إرسال رسالتك بنجاح';
+      btn.style.background = 'linear-gradient(135deg, #4AB545, #389934)';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'إرسال الرسالة ←';
+        btn.style.background = '';
+        btn.disabled = false;
+        e.target.reset();
+      }, 3500);
+    }
+
+    // Counter animation for stats
+    function animateCounter(el, target, suffix = '') {
+      let start = 0;
+      const duration = 1800;
+      const step = (timestamp) => {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = (suffix === '+' ? '+' : '') + Math.floor(eased * target) + (suffix === '/' ? '/7' : suffix === '+' ? '' : '');
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const nums = document.querySelectorAll('.stat-num');
+          nums[0] && animateCounter(nums[0], 15, '+');
+          nums[1] && animateCounter(nums[1], 200, '+');
+          nums[2] && animateCounter(nums[2], 50, '+');
+          statsObserver.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const heroStats = document.querySelector('.hero-stats');
+    if (heroStats) statsObserver.observe(heroStats);
+  </script>
+</body>
+</html>
