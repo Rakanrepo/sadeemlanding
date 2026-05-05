@@ -11,16 +11,16 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --blue: #1C3D9B;
-      --blue-dark: #122880;
-      --blue-light: #2550c4;
+      --blue: #2a2e3a;
+      --blue-dark: #1e2129;
+      --blue-light: #363c4a;
       --green: #4AB545;
       --green-dark: #389934;
       --white: #FFFFFF;
       --off-white: #F4F6FA;
       --gray: #8a9ab5;
-      --dark: #0B1B45;
-      --text: #1a2a4a;
+      --dark: #0d0f14;
+      --text: #1a2030;
     }
 
     html { scroll-behavior: smooth; }
@@ -30,6 +30,37 @@
       background: var(--white);
       color: var(--text);
       overflow-x: hidden;
+    }
+
+    body.loading {
+      overflow: hidden;
+    }
+
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .6s ease, visibility .6s ease;
+    }
+
+    .page-loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .page-loader svg {
+      width: clamp(220px, 28vw, 360px);
+      height: auto;
+    }
+
+    .page-loader .logo-outline-dash-1,
+    .page-loader .logo-outline-dash-2 {
+      filter: url(#loader-glow);
     }
 
     /* ─── NAV ─── */
@@ -42,10 +73,16 @@
       align-items: center;
       justify-content: space-between;
       height: 72px;
-      background: rgba(11, 27, 69, 0.92);
+      background: transparent;
+      backdrop-filter: none;
+      border-bottom: 1px solid transparent;
+      transition: background .4s, border-color .4s, backdrop-filter .4s;
+    }
+
+    nav.scrolled {
+      background: rgba(13, 15, 20, 0.95);
       backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(74, 181, 69, 0.18);
-      transition: background .3s;
+      border-bottom-color: rgba(74, 181, 69, 0.15);
     }
 
     .nav-logo {
@@ -120,7 +157,7 @@
 
     /* ─── HERO ─── */
     #hero {
-      min-height: 100vh;
+      height: 100vh;
       background: var(--dark);
       position: relative;
       display: flex;
@@ -128,37 +165,18 @@
       overflow: hidden;
     }
 
-    .hero-geo {
+    .hero-video-bg {
       position: absolute;
       inset: 0;
+      z-index: 0;
       overflow: hidden;
     }
 
-    /* Animated geometric lines */
-    .hero-geo::before {
-      content: '';
-      position: absolute;
-      top: -20%; right: -10%;
-      width: 70vw; height: 70vw;
-      background: conic-gradient(from 0deg, transparent 0deg, rgba(28, 61, 155, .35) 60deg, transparent 60deg, transparent 120deg, rgba(74, 181, 69, .15) 180deg, transparent 180deg);
-      border-radius: 50%;
-      animation: rotateSlow 30s linear infinite;
-    }
-
-    .hero-geo::after {
-      content: '';
-      position: absolute;
-      bottom: -20%; left: -10%;
-      width: 55vw; height: 55vw;
-      background: radial-gradient(circle, rgba(28,61,155,.5) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: pulsate 8s ease-in-out infinite;
-    }
-
-    @keyframes rotateSlow { to { transform: rotate(360deg); } }
-    @keyframes pulsate {
-      0%, 100% { transform: scale(1); opacity: .5; }
-      50% { transform: scale(1.1); opacity: .8; }
+    .hero-video-bg video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.55;
     }
 
     /* Grid overlay */
@@ -169,16 +187,6 @@
         linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
       background-size: 60px 60px;
-    }
-
-    /* Diagonal accent bar */
-    .hero-accent {
-      position: absolute;
-      top: 0; right: 0;
-      width: 45%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(28,61,155,.25) 0%, rgba(74,181,69,.1) 100%);
-      clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
     }
 
     .hero-content {
@@ -349,16 +357,72 @@
     .hero-visual {
       position: absolute;
       left: 5%;
-      top: 50%;
+      top: calc((100% - 88px) / 2);
       transform: translateY(-50%);
       z-index: 2;
-      opacity: .12;
-      animation: heroIn 1.2s .3s cubic-bezier(.22,.8,.38,1) both;
+      opacity: 1;
+      animation: heroVisualIn 1.2s .3s cubic-bezier(.22,.8,.38,1) both;
     }
 
     .hero-visual svg {
-      width: clamp(200px, 28vw, 380px);
+      display: block;
+      width: clamp(170px, 22vw, 300px);
       height: auto;
+    }
+
+    .hero-visual .logo-fill,
+    .page-loader .logo-fill {
+      fill: rgba(255,255,255,.14);
+    }
+
+    .hero-visual .logo-outline-base,
+    .page-loader .logo-outline-base {
+      fill: none;
+      stroke: rgba(255,255,255,.16);
+      stroke-width: 1.6;
+      vector-effect: non-scaling-stroke;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .hero-visual .logo-outline-dash-1,
+    .hero-visual .logo-outline-dash-2,
+    .page-loader .logo-outline-dash-1,
+    .page-loader .logo-outline-dash-2 {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2.4;
+      vector-effect: non-scaling-stroke;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: url(#logo-glow);
+      stroke-dasharray: 160 840;
+    }
+
+    .hero-visual .logo-outline-dash-1,
+    .page-loader .logo-outline-dash-1 {
+      animation: logoDashTravel 5.2s linear infinite;
+    }
+
+    .hero-visual .logo-outline-dash-2,
+    .page-loader .logo-outline-dash-2 {
+      stroke: rgba(255,255,255,.92);
+      animation: logoDashTravelLag 5.2s linear infinite;
+    }
+
+    @keyframes heroVisualIn {
+      from { opacity: 0; transform: translateY(calc(-50% + 40px)); }
+      to { opacity: 1; transform: translateY(-50%); }
+    }
+
+    @keyframes logoDashTravel {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: -1000; }
+    }
+
+    @keyframes logoDashTravelLag {
+      from { stroke-dashoffset: -550; }
+      to { stroke-dashoffset: -1550; }
     }
 
     /* ─── SECTION BASE ─── */
@@ -1000,6 +1064,41 @@
   </style>
 </head>
 <body>
+  <div id="page-loader" class="page-loader" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283 295" fill="none">
+      <defs>
+        <filter id="loader-glow" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur stdDeviation="4.2" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      <path class="logo-fill" d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z"/>
+      <path class="logo-fill" d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z"/>
+      <path class="logo-fill" d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z"/>
+      <path class="logo-fill" d="M145 153H187V160H151V169H181H187V192.5L145.5 192V185.5H181V176H145V160V153Z"/>
+      <path class="logo-fill" d="M194 153H200V175.5H229V164.5V159.5H200V153H210H220H229H235V175.5V182V193H229V182H200V193H194V153Z"/>
+      <path class="logo-fill" d="M241 153H283V160H247V185.221H277V175H263V169H283V185.221V192.5H241V178V160V153Z"/>
+
+      <path class="logo-outline-base" d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z"/>
+      <path class="logo-outline-base" d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z"/>
+      <path class="logo-outline-base" d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z"/>
+      <path class="logo-outline-base" d="M145 153H187V160H151V169H181H187V192.5L145.5 192V185.5H181V176H145V160V153Z"/>
+      <path class="logo-outline-base" d="M194 153H200V175.5H229V164.5V159.5H200V153H210H220H229H235V175.5V182V193H229V182H200V193H194V153Z"/>
+      <path class="logo-outline-base" d="M241 153H283V160H247V185.221H277V175H263V169H283V185.221V192.5H241V178V160V153Z"/>
+
+      <path class="logo-outline-dash-1" d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z"/>
+      <path class="logo-outline-dash-1" d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z"/>
+      <path class="logo-outline-dash-1" d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z"/>
+
+      <path class="logo-outline-dash-2" d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z"/>
+      <path class="logo-outline-dash-2" d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z"/>
+      <path class="logo-outline-dash-2" d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z"/>
+    </svg>
+  </div>
 
   <!-- NAV -->
   <nav>
@@ -1027,9 +1126,10 @@
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-geo"></div>
+    <div class="hero-video-bg">
+      <video id="hero-video" autoplay muted playsinline preload="auto"></video>
+    </div>
     <div class="hero-grid"></div>
-    <div class="hero-accent"></div>
 
     <div class="hero-content">
       <div class="hero-badge">
@@ -1056,12 +1156,37 @@
 
     <div class="hero-visual">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283 295" fill="none">
-        <path d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z" fill="white"/>
-        <path d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z" fill="white"/>
-        <path d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z" fill="white"/>
-        <path d="M145 153H187V160H151V169H181H187V192.5L145.5 192V185.5H181V176H145V160V153Z" fill="white"/>
-        <path d="M194 153H200V175.5H229V164.5V159.5H200V153H210H220H229H235V175.5V182V193H229V182H200V193H194V153Z" fill="white"/>
-        <path d="M241 153H283V160H247V185.221H277V175H263V169H283V185.221V192.5H241V178V160V153Z" fill="white"/>
+        <defs>
+          <filter id="logo-glow" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="4.2" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <path class="logo-fill" d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z"/>
+        <path class="logo-fill" d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z"/>
+        <path class="logo-fill" d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z"/>
+        <path class="logo-fill" d="M145 153H187V160H151V169H181H187V192.5L145.5 192V185.5H181V176H145V160V153Z"/>
+        <path class="logo-fill" d="M194 153H200V175.5H229V164.5V159.5H200V153H210H220H229H235V175.5V182V193H229V182H200V193H194V153Z"/>
+        <path class="logo-fill" d="M241 153H283V160H247V185.221H277V175H263V169H283V185.221V192.5H241V178V160V153Z"/>
+
+        <path class="logo-outline-base" d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z"/>
+        <path class="logo-outline-base" d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z"/>
+        <path class="logo-outline-base" d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z"/>
+        <path class="logo-outline-base" d="M145 153H187V160H151V169H181H187V192.5L145.5 192V185.5H181V176H145V160V153Z"/>
+        <path class="logo-outline-base" d="M194 153H200V175.5H229V164.5V159.5H200V153H210H220H229H235V175.5V182V193H229V182H200V193H194V153Z"/>
+        <path class="logo-outline-base" d="M241 153H283V160H247V185.221H277V175H263V169H283V185.221V192.5H241V178V160V153Z"/>
+
+        <path class="logo-outline-dash-1" d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z"/>
+        <path class="logo-outline-dash-1" d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z"/>
+        <path class="logo-outline-dash-1" d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z"/>
+
+        <path class="logo-outline-dash-2" d="M145 0L146.723 7.67159C161.834 74.9571 214.61 127.363 282 142H145V0Z"/>
+        <path class="logo-outline-dash-2" d="M137 0L135.277 7.67159C120.166 74.9571 67.3902 127.363 0 142H137V0Z"/>
+        <path class="logo-outline-dash-2" d="M137 295L135.277 287.328C120.166 220.043 67.3902 167.637 0 153H137V295Z"/>
       </svg>
     </div>
 
@@ -1384,6 +1509,50 @@
   </a>
 
   <script>
+    // Loading overlay (minimum 5s + wait for hero video)
+    const pageLoader = document.getElementById('page-loader');
+    let loaderMinDelayDone = false;
+    let heroVideoReady = false;
+
+    function maybeHideLoader() {
+      if (!pageLoader) return;
+      if (loaderMinDelayDone && heroVideoReady) {
+        pageLoader.classList.add('hidden');
+        document.body.classList.remove('loading');
+      }
+    }
+
+    document.body.classList.add('loading');
+    setTimeout(() => {
+      loaderMinDelayDone = true;
+      maybeHideLoader();
+    }, 5000);
+
+    // Hero video loop
+    const heroVideo = document.getElementById('hero-video');
+    const heroVideos = ['video2.mp4', 'video1.mp4'];
+    let currentHeroVideo = 0;
+
+    heroVideo.addEventListener('loadeddata', () => {
+      heroVideoReady = true;
+      maybeHideLoader();
+    }, { once: true });
+
+    heroVideo.addEventListener('error', () => {
+      // If video fails, still allow leaving the loader after minimum delay.
+      heroVideoReady = true;
+      maybeHideLoader();
+    }, { once: true });
+
+    heroVideo.src = heroVideos[currentHeroVideo];
+    heroVideo.play();
+
+    heroVideo.addEventListener('ended', () => {
+      currentHeroVideo = (currentHeroVideo + 1) % heroVideos.length;
+      heroVideo.src = heroVideos[currentHeroVideo];
+      heroVideo.play();
+    });
+
     // Scroll reveal
     const revealEls = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
@@ -1399,9 +1568,7 @@
     // Nav scroll effect
     const nav = document.querySelector('nav');
     window.addEventListener('scroll', () => {
-      nav.style.background = window.scrollY > 60
-        ? 'rgba(11, 27, 69, 0.98)'
-        : 'rgba(11, 27, 69, 0.92)';
+      nav.classList.toggle('scrolled', window.scrollY > 60);
     });
 
     // Form submit
