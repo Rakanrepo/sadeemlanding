@@ -1559,18 +1559,12 @@
     const heroVideo = document.getElementById('hero-video');
     const heroVideos = ['video2.mp4', 'video1.mp4'];
     let currentHeroVideo = 0;
-    let failedVideoLoads = 0;
 
     heroVideo.muted = true;
     heroVideo.defaultMuted = true;
     heroVideo.setAttribute('muted', '');
     heroVideo.setAttribute('playsinline', '');
     heroVideo.setAttribute('webkit-playsinline', '');
-
-    if (!heroVideo.canPlayType('video/mp4')) {
-      heroVideoReady = true;
-      maybeHideLoader();
-    }
 
     heroVideo.addEventListener('loadeddata', () => {
       heroVideoReady = true;
@@ -1586,12 +1580,9 @@
     function tryPlayHeroVideo() {
       const playPromise = heroVideo.play();
       if (playPromise && typeof playPromise.catch === 'function') {
-        playPromise.catch((err) => {
+        playPromise.catch(() => {
           // Some mobile browsers reject the first autoplay attempt.
           // We'll retry on canplay below.
-          if (err && err.name === 'NotSupportedError') {
-            advanceVideoOnFailure();
-          }
         });
       }
     }
@@ -1603,27 +1594,17 @@
       tryPlayHeroVideo();
     }
 
-    function advanceVideoOnFailure() {
-      failedVideoLoads += 1;
-      if (failedVideoLoads >= heroVideos.length) {
-        heroVideoReady = true;
-        maybeHideLoader();
-        return;
-      }
-      setHeroVideo((currentHeroVideo + 1) % heroVideos.length);
-    }
-
     heroVideo.addEventListener('canplay', tryPlayHeroVideo);
     setHeroVideo(currentHeroVideo);
 
     heroVideo.addEventListener('ended', () => {
-      failedVideoLoads = 0;
       setHeroVideo((currentHeroVideo + 1) % heroVideos.length);
     });
 
     heroVideo.addEventListener('error', () => {
-      // If one file fails, try the next one.
-      advanceVideoOnFailure();
+      // If one file fails, allow loader to exit gracefully.
+      heroVideoReady = true;
+      maybeHideLoader();
     });
 
     // Scroll reveal
