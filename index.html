@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0d0f14" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>سديم الخير للخرسانة الجاهزة</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1557,8 +1557,20 @@
 
     // Hero video loop
     const heroVideo = document.getElementById('hero-video');
-    const heroVideos = ['video2_optimized.mp4', 'video1_optimized.mp4'];
+    const heroVideos = ['video2.mp4', 'video1.mp4'];
     let currentHeroVideo = 0;
+    let failedVideoLoads = 0;
+
+    heroVideo.muted = true;
+    heroVideo.defaultMuted = true;
+    heroVideo.setAttribute('muted', '');
+    heroVideo.setAttribute('playsinline', '');
+    heroVideo.setAttribute('webkit-playsinline', '');
+
+    if (!heroVideo.canPlayType('video/mp4')) {
+      heroVideoReady = true;
+      maybeHideLoader();
+    }
 
     heroVideo.addEventListener('loadeddata', () => {
       heroVideoReady = true;
@@ -1571,13 +1583,47 @@
       maybeHideLoader();
     }, { once: true });
 
-    heroVideo.src = heroVideos[currentHeroVideo];
-    heroVideo.play();
+    function tryPlayHeroVideo() {
+      const playPromise = heroVideo.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch((err) => {
+          // Some mobile browsers reject the first autoplay attempt.
+          // We'll retry on canplay below.
+          if (err && err.name === 'NotSupportedError') {
+            advanceVideoOnFailure();
+          }
+        });
+      }
+    }
+
+    function setHeroVideo(index) {
+      currentHeroVideo = index % heroVideos.length;
+      heroVideo.src = heroVideos[currentHeroVideo];
+      heroVideo.load();
+      tryPlayHeroVideo();
+    }
+
+    function advanceVideoOnFailure() {
+      failedVideoLoads += 1;
+      if (failedVideoLoads >= heroVideos.length) {
+        heroVideoReady = true;
+        maybeHideLoader();
+        return;
+      }
+      setHeroVideo((currentHeroVideo + 1) % heroVideos.length);
+    }
+
+    heroVideo.addEventListener('canplay', tryPlayHeroVideo);
+    setHeroVideo(currentHeroVideo);
 
     heroVideo.addEventListener('ended', () => {
-      currentHeroVideo = (currentHeroVideo + 1) % heroVideos.length;
-      heroVideo.src = heroVideos[currentHeroVideo];
-      heroVideo.play();
+      failedVideoLoads = 0;
+      setHeroVideo((currentHeroVideo + 1) % heroVideos.length);
+    });
+
+    heroVideo.addEventListener('error', () => {
+      // If one file fails, try the next one.
+      advanceVideoOnFailure();
     });
 
     // Scroll reveal
